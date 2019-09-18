@@ -7,8 +7,15 @@ import {
     Animated,
 } from 'react-native';
 import {Main, Colors} from '../styles/';
-
 import SearchBar from './_component/SearchBar';
+import Carousel from './_component/Carousel';
+
+const images = [
+    {url: require('../../assets/images/slides/image_0.jpg')},
+    {url: require('../../assets/images/slides/image_1.jpg')},
+    {url: require('../../assets/images/slides/image_2.jpg')},
+    {url: require('../../assets/images/slides/image_4.jpg')},
+]
 
 export default class MainScreen extends React.Component {
     constructor(props) {
@@ -18,7 +25,7 @@ export default class MainScreen extends React.Component {
             logoHeight: 50,
             scrollY: new Animated.Value(0),
             get scrollMarginTop() {
-                return this.headerHeight + 10;
+                return this.headerHeight;
             },
         };
     }
@@ -48,12 +55,12 @@ export default class MainScreen extends React.Component {
                             bounces={false}
                             scrollEventThrottle={16}
                             onScroll={event => this._onScroll(event)}
-                            style={{backgroundColor: 'red', paddingTop: this.state.scrollMarginTop}}
+                            style={{backgroundColor: '#ffffff', paddingTop: this.state.scrollMarginTop}}
                         >
-                            <Text>{JSON.stringify(this.state.searchInputIsFocused)}</Text>
-                            <View style={{height: 300, backgroundColor: 'grey', marginBottom: 20}}/>
-                            <View style={{height: 300, backgroundColor: 'grey', marginBottom: 20}}/>
-                            <View style={{height: 300, backgroundColor: 'grey', marginBottom: 20}}/>
+                            <View style={{height: 180}}>
+                                <Carousel images={images} duration={8000}/>
+                            </View>
+
                         </Animated.ScrollView>
                         <SearchBar
                             headerHeight={this.state.headerHeight}

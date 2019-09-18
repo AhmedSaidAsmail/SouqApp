@@ -1,11 +1,3 @@
-/*
-PROPS:
-headerHeight,
-searchInputHeight
-searchInputTranslateY
-searchInputIsFocused
-startSearch
- */
 import * as React from 'react';
 import {
     View,
@@ -15,9 +7,12 @@ import {
     TouchableWithoutFeedback,
     Dimensions,
     Keyboard,
+    ActivityIndicator,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {connect} from 'react-redux';
+import {search} from '../../middleware/redux/actions/Search';
 import {Main} from '../../styles/';
 
 /**
@@ -26,7 +21,8 @@ import {Main} from '../../styles/';
  * headerHeight
  */
 const {width, height} = Dimensions.get('window');
-export default class SearchBar extends React.Component {
+
+class SearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,12 +36,9 @@ export default class SearchBar extends React.Component {
             },
             get searchInputTranslateY() {
                 return this.diffClampScroll.interpolate({
-                    inputRange: [0, this.searchInputHeight],
-                    outputRange: [0, -this.searchInputHeight],
+                    inputRange: [0, this.searchInputHeight / 4, this.searchInputHeight / 2, this.searchInputHeight],
+                    outputRange: [0, 0, 0, -this.searchInputHeight],
                 });
-            },
-            get resultAreaPaddingTop() {
-                return this.searchInputHeight + this.headerHeight + 10;
             },
         };
     }
@@ -64,6 +57,7 @@ export default class SearchBar extends React.Component {
                 toValue: height,
                 duration: 100,
             }).start();
+            this.props.search({keyword: null, terminate: true});
         }
     }
 
@@ -79,6 +73,11 @@ export default class SearchBar extends React.Component {
             Keyboard.dismiss();
         }
     }
+    _loading = () => {
+        if (this.props.loading) {
+            return (<ActivityIndicator/>);
+        }
+    }
 
     render() {
         return (
@@ -89,16 +88,8 @@ export default class SearchBar extends React.Component {
                 translateY: this.state.searchInputTranslateY,
             }}
             >
-                <Animated.View style={{
-                    position: 'absolute',
-                    width,
-                    height,
-                    top: this.state.resultAreaTopPosition,
-                    backgroundColor: '#ffffff',
-                    zIndex: 1,
-                    elevation: 1,
-                    paddingTop: 20,
-                }}>
+                <Animated.View style={{...Main.resultArea, top: this.state.resultAreaTopPosition}}>
+                    {this._loading()}
                     <Text>1</Text>
                     <Text>2</Text>
                     <Text>3</Text>
@@ -122,6 +113,7 @@ export default class SearchBar extends React.Component {
                         placeholder="انت بتدور علي ايه؟"
                         style={Main.searchInput}
                         onFocus={() => this._startSearch()}
+                        onChangeText={keyword => this.props.search({keyword})}
                     />
 
                 </View>
@@ -129,3 +121,12 @@ export default class SearchBar extends React.Component {
         );
     }
 }
+
+const searchProps = (state) => {
+    return {
+        loading: state.searchResult.loading,
+        result: state.searchResult.result,
+        error: state.searchResult.error,
+    }
+}
+export default connect(searchProps, {search})(SearchBar);

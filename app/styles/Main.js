@@ -1,7 +1,8 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import Colors from './Colors';
 import Fonts from './Fonts';
 
+const {width, height} = Dimensions.get('window');
 export default {
     container: {
         flex: 1,
@@ -44,7 +45,15 @@ export default {
         textAlign: 'right',
         fontSize: 19,
         fontFamily: Fonts.elMessiriSemiBold,
-        // backgroundColor: 'grey',
+    },
+    resultArea: {
+        position: 'absolute',
+        width,
+        height,
+        backgroundColor: '#ffffff',
+        zIndex: 1,
+        elevation: 1,
+        paddingTop: 20,
     },
     header: {
         // ...StyleSheet.absoluteFillObject,

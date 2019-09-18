@@ -1,3 +1,4 @@
 export default {
-    turbo: '#f9ca24',
+    turbo: '#ffaf40',
+    shadowSteel: '#4b4b4b',
 }
