@@ -13,7 +13,24 @@ export default {
     footer: {
         flex: 1,
         borderTopWidth: 1,
-        borderTopColor: '#000000',
+        borderTopColor: Colors.aspestos,
+        flexDirection: 'row-reverse',
+        paddingHorizontal: 10,
+    },
+    footerPart: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    footerIcon: {
+        fontSize: 25,
+        fontWeight: 900,
+    },
+    footerIconActive: {
+        color: Colors.pumpkin,
+    },
+    footerText: {
+        fontFamily: Fonts.elMessiriBold,
     },
     searchInputWrapper: {
         ...StyleSheet.absoluteFillObject,

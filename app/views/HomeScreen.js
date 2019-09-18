@@ -5,10 +5,15 @@ import {
     StatusBar,
     Image,
     Animated,
+    TouchableOpacity,
 } from 'react-native';
 import {Main, Colors} from '../styles/';
 import SearchBar from './_component/SearchBar';
 import Carousel from './_component/Carousel';
+import Footer from './_component/Footer';
+import Icon from 'react-native-vector-icons/Octicons';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 const images = [
     {url: require('../../assets/images/slides/image_0.jpg')},
@@ -67,8 +72,7 @@ export default class MainScreen extends React.Component {
                             scrollY={this.state.scrollY}
                         />
                     </View>
-                    <View style={Main.footer}>
-                    </View>
+                    <Footer/>
                 </View>
             </React.Fragment>
         );
